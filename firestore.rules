@@ -1,0 +1,92 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    function loggedIn() {
+      return request.auth != null;
+    }
+    function editor() {
+      return loggedIn()
+        && exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+        && get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.role in ['owner', 'editor'];
+    }
+    function validPayhip(link) {
+      return link is string && (link == '' || link.matches('^https://payhip[.]com/b/[A-Za-z0-9_-]+/?$'));
+    }
+    function validPreview(value) {
+      return value is string && (value == '' ||
+        (value.matches('^assets/[A-Za-z0-9_./-]+[.]pdf$') && !value.matches('.*[.][.].*')));
+    }
+    function validProduct(d) {
+      return d.keys().hasOnly([
+        'title', 'subject', 'level', 'exam', 'description', 'includes',
+        'pages', 'price', 'cover', 'symbol', 'badge', 'preview',
+        'payhipUrl', 'featured', 'published',
+        'createdAt', 'createdBy', 'updatedAt', 'updatedBy'
+      ])
+      && d.keys().hasAll([
+        'title', 'subject', 'level', 'exam', 'description', 'includes',
+        'pages', 'price', 'cover', 'symbol', 'badge', 'preview',
+        'payhipUrl', 'featured', 'published',
+        'createdAt', 'createdBy', 'updatedAt', 'updatedBy'
+      ])
+      && d.title is string && d.title.size() > 0 && d.title.size() <= 140
+      && d.subject is string && d.subject.size() > 0 && d.subject.size() <= 50
+      && d.level is string && d.level.size() > 0 && d.level.size() <= 80
+      && d.exam is string && d.exam.size() <= 100
+      && d.description is string && d.description.size() > 0 && d.description.size() <= 1500
+      && d.includes is list && d.includes.size() <= 25
+      && d.pages is int && d.pages >= 0 && d.pages <= 2000
+      && (d.price == null || (d.price is number && d.price >= 0))
+      && d.cover in ['violet', 'mint', 'peach', 'blue', 'sand']
+      && d.symbol is string && d.symbol.size() <= 4
+      && d.badge is string && d.badge.size() <= 40
+      && validPreview(d.preview)
+      && validPayhip(d.payhipUrl)
+      && d.featured is bool && d.published is bool
+      && (!d.published || d.payhipUrl != '')
+      && d.createdAt is timestamp && d.updatedAt is timestamp
+      && d.createdBy is string && d.updatedBy is string;
+    }
+    function validSettings(d) {
+      return d.keys().hasOnly(['name', 'currency', 'supportEmail', 'testMode'])
+      && d.keys().hasAll(['name', 'currency', 'supportEmail', 'testMode'])
+      && d.name is string && d.name.size() > 0 && d.name.size() <= 60
+      && d.currency in ['USD','LKR','GBP','EUR','AUD','CAD']
+      && d.supportEmail is string && d.supportEmail.size() <= 254
+      && d.testMode is bool
+      && (d.testMode || d.supportEmail.size() > 0);
+    }
+    match /admins/{uid} {
+      // Login alone never grants editing rights.
+      // Only the Firebase project owner can create or modify roles via Console.
+      allow get: if loggedIn() && request.auth.uid == uid;
+      allow list, create, update, delete: if false;
+    }
+    match /products/{productId} {
+      // A query from an anonymous shopper MUST include where('published', '==', true).
+      allow get, list: if resource.data.published == true || editor();
+      allow create: if editor()
+        && productId.matches('^[a-z0-9]+(-[a-z0-9]+)*$')
+        && validProduct(request.resource.data)
+        && request.resource.data.createdBy == request.auth.uid
+        && request.resource.data.updatedBy == request.auth.uid
+        && request.resource.data.createdAt == request.time
+        && request.resource.data.updatedAt == request.time;
+      allow update: if editor()
+        && validProduct(request.resource.data)
+        && request.resource.data.createdBy == resource.data.createdBy
+        && request.resource.data.createdAt == resource.data.createdAt
+        && request.resource.data.updatedBy == request.auth.uid
+        && request.resource.data.updatedAt == request.time;
+      allow delete: if editor();
+    }
+    match /settings/{settingId} {
+      allow read: if settingId == 'public';
+      allow create, update: if settingId == 'public' && editor() && validSettings(request.resource.data);
+      allow delete: if false;
+    }
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

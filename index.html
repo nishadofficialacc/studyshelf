@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f6f2">
+  <meta name="description" content="Browse StudyShelf digital revision guides and sample study notes. Preview material and continue to Payhip for checkout.">
+  <title>StudyShelf — Notes for brighter study days</title>
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="styles.css">
+  <script type="module" src="app.js"></script>
+</head>
+<body>
+  <a class="skip-link" href="#catalog">Skip to catalog</a>
+  <div class="announcement" id="announcement">DEMO STORE · Product checkout is handled by Payhip <span aria-hidden="true">✦</span></div>
+  <header class="site-header">
+    <div class="container nav-inner">
+      <a class="logo" href="#home" aria-label="StudyShelf home"><span class="logo-mark">S<span class="logo-dot">.</span></span><span class="logo-word">Study<span>Shelf</span><small>NOTES THAT MAKE SENSE</small></span></a>
+      <nav class="main-links" aria-label="Main menu"><a href="#catalog">Explore notes</a><a href="#how">How it works</a><a href="#faq">FAQs</a></nav>
+      <a class="nav-cta" href="#catalog">Browse library <span aria-hidden="true">↗</span></a>
+      <button class="menu-toggle" type="button" id="menuToggle" aria-label="Open navigation" aria-expanded="false" aria-controls="mobileLinks">☰</button>
+    </div>
+    <nav class="mobile-links" id="mobileLinks" aria-label="Mobile menu" hidden><a href="#catalog">Explore notes</a><a href="#how">How it works</a><a href="#faq">FAQs</a><a href="#contact">Contact</a></nav>
+  </header>
+  <main id="home">
+    <section class="hero">
+      <div class="container hero-layout">
+        <div class="hero-copy">
+          <span class="eyebrow"><span class="eyebrow-line"></span> YOUR STUDY CORNER, SIMPLIFIED</span>
+          <h1>Make room for <em>lightbulb</em> moments<span class="period">.</span></h1>
+          <p class="hero-description">Study notes that cut through the clutter. Find a topic, explore a preview, and get back to what matters — learning something new.</p>
+          <div class="hero-actions"><a class="button button-dark" href="#catalog">Explore study notes <span aria-hidden="true">↗</span></a><a class="button button-plain" href="#how">See how it works <span aria-hidden="true">→</span></a></div>
+          <div class="hero-proof"><span><span class="tick">✓</span> Clear and focused</span><span><span class="tick">✓</span> Digital PDF format</span><span><span class="tick">✓</span> Shop on Payhip</span></div>
+        </div>
+        <div class="hero-visual" aria-hidden="true">
+          <div class="visual-aura"></div><div class="visual-circle"></div><div class="spark spark-a">✳</div><div class="spark spark-b">✦</div>
+          <div class="visual-card card-rear"><span>THE STUDY<br>COLLECTION</span><strong>01</strong><span class="swirl">❋</span></div>
+          <div class="visual-card card-front"><span class="visual-top">STUDYSHELF / STUDY NOTES</span><div class="visual-formula">∑</div><strong>THE ART<br>OF GETTING IT.</strong><span class="visual-bottom">LEARN • REVIEW • REPEAT <span>→</span></span></div>
+          <div class="visual-sticker">a little more<br><strong>“aha!”</strong> every day</div>
+        </div>
+      </div>
+    </section>
+    <section class="feature-strip" aria-label="Why StudyShelf">
+      <div class="container feature-row"><div><span class="feature-icon">◈</span><span><strong>Focused notes</strong><small>Learn without the noise</small></span></div><div><span class="feature-icon">⧉</span><span><strong>PDF format</strong><small>Download and revise</small></span></div><div><span class="feature-icon">↗</span><span><strong>Payhip checkout</strong><small>Products delivered by the seller</small></span></div></div>
+    </section>
+    <section class="section catalog-section" id="catalog">
+      <div class="container">
+        <div class="section-heading"><div><span class="section-kicker">YOUR NEXT GOOD STUDY DAY</span><h2>Explore the library<span class="period">.</span></h2><p>Start with a free sample and discover more subjects as they arrive.</p></div><div class="heading-badge">STUDY SMARTER <span>✺</span></div></div>
+        <div class="filter-panel">
+          <label class="searchbox" for="searchInput"><span aria-hidden="true">⌕</span><input id="searchInput" type="search" placeholder="Search topics or subjects..." autocomplete="off"><span class="search-help">SEARCH</span></label>
+          <label class="field-select">Subject<select id="subjectFilter"><option value="all">All subjects</option></select></label>
+          <label class="field-select">Level<select id="levelFilter"><option value="all">All levels</option></select></label>
+          <label class="field-select">Sort<select id="sortFilter"><option value="featured">Featured</option><option value="az">A to Z</option><option value="price-asc">Price: low to high</option><option value="price-desc">Price: high to low</option></select></label>
+        </div>
+        <div class="catalog-bar"><span id="resultsCount" role="status" aria-live="polite">Loading products…</span><button id="clearFilters" class="text-button" type="button">Clear filters ↺</button></div>
+        <div id="catalogError" class="message error-message" hidden><strong>We couldn't load the library.</strong><p>Refresh this page. If you're opening the HTML file directly, run a local web server or visit the GitHub Pages website.</p></div>
+        <div class="product-grid" id="productGrid" aria-live="polite"></div>
+        <div id="emptyState" class="message empty-message" hidden><span>⌕</span><h3>No matching notes yet</h3><p>Try a different subject or remove your search filters.</p><button class="button button-dark" type="button" id="emptyReset">Show all notes</button></div>
+        <div class="library-tail"><div><span class="tail-icon">✳</span><strong>More notes on the way</strong><p>New study material will appear here when the seller publishes it.</p></div><a href="#contact">Have a question? ↗</a></div>
+      </div>
+    </section>
+    <section class="section how-section" id="how"><div class="container"><div class="section-heading"><div><span class="section-kicker">SIMPLE FROM START TO STUDY</span><h2>How it works<span class="period">.</span></h2></div></div><div class="steps"><article><span class="step-number">01</span><div class="step-icon">⌕</div><h3>Find your topic</h3><p>Browse the library or search by subject and education level.</p></article><article><span class="step-number">02</span><div class="step-icon">▤</div><h3>Check the preview</h3><p>Read the description and any free sample before deciding.</p></article><article><span class="step-number">03</span><div class="step-icon">↗</div><h3>Continue to Payhip</h3><p>Complete checkout or free download through the seller's Payhip page.</p></article></div></div></section>
+    <section class="section faq-section" id="faq"><div class="container faq-grid"><div><span class="section-kicker">THE DETAILS</span><h2>Good questions.<br><em>Clear answers.</em></h2><p>Here's how the store works. Product details and checkout conditions are confirmed on Payhip.</p></div><div class="faq-items"><details><summary>Are the notes physical books?<span>+</span></summary><p>No. StudyShelf listings are digital resources, typically in PDF format, unless a product states otherwise.</p></details><details><summary>Where do I complete a purchase?<span>+</span></summary><p>The product button opens the seller's Payhip listing. Confirm the price, terms, and contents there before ordering.</p></details><details><summary>How do downloads work?<span>+</span></summary><p>Payhip handles access to files uploaded by the seller after the required checkout steps are completed.</p></details><details><summary>Who can answer product questions?<span>+</span></summary><p>Use the seller contact details below when they have been published. For existing orders, check the contact information on Payhip.</p></details></div></div></section>
+    <section class="end-banner" id="contact"><div class="container end-inner"><div><span class="section-kicker">KEEP CURIOSITY CLOSE</span><h2>Find your next <em>aha!</em></h2><p>Ready to explore? Start with the free Mathematics sample.</p><p class="support-line" id="supportLine">Seller support contact not configured yet — demonstration store.</p></div><a class="button button-light" href="#catalog">Browse notes ↗</a></div></section>
+  </main>
+  <footer class="site-footer"><div class="container footer-row"><a class="footer-brand" href="#home">Study<span>Shelf</span><small>NOTES THAT MAKE SENSE</small></a><p>Digital study resources. Checkout and file delivery through Payhip.</p><div><a href="#catalog">Catalog</a><a href="#faq">FAQs</a><a href="#contact">Contact</a></div></div><div class="container footer-bottom"><span>© <span id="year"></span> StudyShelf. Content belongs to its respective rights holders.</span><span id="footerMode">Demonstration storefront · Not ready for commercial launch</span></div></footer>
+  <dialog id="productDialog" class="product-dialog" aria-labelledby="dialogTitle"><div class="dialog-top"><span>STUDYSHELF / PRODUCT DETAILS</span><button class="dialog-close" id="dialogClose" type="button" aria-label="Close product details">✕</button></div><div id="dialogContent"></div></dialog>
+</body>
+</html>

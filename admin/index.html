@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="robots" content="noindex,nofollow"><title>StudyShelf V3 — Secure Catalog Manager</title><link rel="stylesheet" href="admin.css"><script type="module" src="admin.js"></script></head>
+<body>
+  <a class="skip-link" href="#editor">Skip to editor</a>
+  <header class="topbar"><div class="top-inner"><a class="brand" href="../index.html">Study<span>Shelf</span><small>CATALOG STUDIO</small></a><a href="../index.html" target="_blank" rel="noopener">↗ View storefront</a></div></header>
+  <div class="notice"><span>PRIVATE PRODUCT MANAGEMENT</span> Sign in with your approved Google account. Only manually authorized editors can save changes. Paid PDFs and payments remain inside Payhip.</div>
+  <section id="authGate" class="auth-gate" aria-live="polite">
+    <div class="auth-card"><span class="eyebrow">STUDYSHELF / V3</span><h1>Team sign-in<span class="green-dot">.</span></h1><p id="authText">Checking your secure dashboard configuration…</p>
+    <button id="signInBtn" type="button" class="btn btn-dark" hidden>Continue with Google ↗</button>
+    <div id="identityInfo" class="identity-info" hidden><p id="identityEmail"></p><p>Your user ID (UID): <code id="identityUid"></code></p><button class="btn btn-light" id="copyUidBtn" type="button">Copy UID</button><button class="btn btn-light" id="gateSignOutBtn" type="button">Sign out</button></div>
+    <p class="gate-footnote">Ask the project owner to authorize your UID in Firebase Console. The login screen alone does not grant editing permission.</p></div>
+  </section>
+  <main class="wrapper" id="editor" hidden>
+    <section class="intro"><div><div class="eyebrow">WELCOME TO YOUR WORKSPACE</div><h1>Manage your notes<span>.</span></h1><p>Add products, manage private drafts, and publish storefront updates directly. All changes are saved to the protected database.</p></div><div class="intro-actions"><button type="button" id="seedBtn" class="btn btn-light">↧ Import V2 sample (once)</button><button type="button" id="downloadBtn" class="btn btn-dark">↓ Download backup JSON</button></div></section>
+    <div id="appStatus" class="status" role="status" aria-live="polite">Loading catalog…</div>
+    <div class="tool-row"><span id="userLabel" class="dirty-indicator"></span><button type="button" class="quiet" id="signOutBtn">Sign out</button><span id="changeStatus" class="dirty-indicator">No unsaved changes</span></div>
+    <div class="editor-layout">
+      <aside class="sidebar"><div class="sidebar-top"><div><h2>Products</h2><p id="productCounter">0 notes</p></div><button type="button" id="newBtn" class="new-btn">+ Add</button></div><div id="productList" class="product-list"></div><p class="hint">Drafts are protected by database rules and hidden from customers. Published products require a valid Payhip link.</p></aside>
+      <div class="edit-area">
+        <div id="noProduct" class="empty">Select a product on the left or add a new one.</div>
+        <form id="productForm" hidden novalidate>
+          <div class="form-heading"><div><span class="eyebrow">PRODUCT DETAILS</span><h2 id="editorTitle">Edit listing</h2></div><div class="product-actions"><button class="quiet" type="button" id="duplicateBtn">⧉ Duplicate</button><button class="quiet danger" type="button" id="deleteBtn">✕ Delete</button></div></div>
+          <div class="form-grid">
+            <label class="full">Product name <input name="title" maxlength="140" required placeholder="Example: Biology — Cell Structure"></label>
+            <label>Product ID / share-link slug <input name="id" maxlength="80" required pattern="[a-z0-9-]+" placeholder="biology-cell-structure"><small>Lowercase letters, numbers, hyphens. IDs become fixed after creation, protecting shared product links.</small></label>
+            <label>Subject <input name="subject" maxlength="50" required placeholder="Biology"></label>
+            <label>Education level <input name="level" maxlength="80" required placeholder="Grade 11"></label>
+            <label>Exam or topic <input name="exam" maxlength="100" placeholder="O/L, A/L, or curriculum"></label>
+            <label class="full">Description <textarea name="description" maxlength="1500" rows="4" required placeholder="What will a student learn from these notes?"></textarea></label>
+            <label class="full">Contents — one bullet per line <textarea name="includes" rows="4" placeholder="Chapter summaries&#10;Practice questions&#10;Answer explanations"></textarea></label>
+            <label>Number of pages <input name="pages" type="number" min="0" max="2000" step="1"></label>
+            <label>Price in store currency <input name="price" type="number" min="0" step="0.01" placeholder="Leave blank if unverified"><small>Set to 0 for free, or leave empty to display “See Payhip price”. Match the actual checkout amount.</small></label>
+            <label>Cover palette <select name="cover"><option value="violet">Lilac</option><option value="mint">Sage</option><option value="peach">Peach</option><option value="blue">Sky</option><option value="sand">Sand</option></select></label>
+            <label>Cover symbol <input name="symbol" maxlength="4" placeholder="∑"></label>
+            <label>Badge <input name="badge" maxlength="40" placeholder="FREE SAMPLE"></label>
+            <label class="full">Payhip product URL <input name="payhipUrl" type="url" placeholder="https://payhip.com/b/..."><small>Paste a published HTTPS Payhip product link. Do not put card details, passwords, or API keys here.</small></label>
+            <label class="full">Public sample preview path <input name="preview" placeholder="assets/sample.pdf"><small>Only public PDF samples under assets/ are supported. Upload that sample to GitHub separately before publishing.</small></label>
+            <div class="check-row full"><label><input name="featured" type="checkbox"> Featured item</label><label><input name="published" type="checkbox"> Published on storefront</label></div>
+          </div>
+          <p id="productHint" class="form-note"></p><div class="save-bar"><button id="saveProductBtn" class="btn btn-dark" type="submit">Save product to live database</button><span class="dirty-indicator">Drafts remain hidden until published.</span></div>
+        </form>
+      </div>
+    </div>
+    <section class="settings"><div class="settings-copy"><span class="eyebrow">STORE SETTINGS</span><h2>Store-wide details</h2><p>These are public information only. Your client's Payhip account, customer data, PDFs for sale, and payment settings stay inside Payhip.</p></div><form id="settingsForm" class="settings-form" novalidate><label>Store name (branding in page code is still StudyShelf) <input name="name" value="StudyShelf" maxlength="60"></label><label>Checkout currency <select name="currency"><option>USD</option><option>LKR</option><option>GBP</option><option>EUR</option><option>AUD</option><option>CAD</option></select></label><label class="full">Seller support email <input name="supportEmail" type="email" placeholder="support@clientdomain.com"><small>Do not publish a placeholder or your private email. Use a client-approved address.</small></label><label class="switch"><input name="testMode" type="checkbox" checked> Keep “demo/test store” notices visible</label><div class="settings-save"><button id="saveSettingsBtn" type="submit" form="settingsForm" class="btn btn-dark">Save store settings</button></div></form></section>
+    <section class="publish"><h2>Shared workflow</h2><ol>
+      <li>The client uploads the full paid PDF to Payhip and publishes its product there.</li>
+      <li>Either approved editor signs in here and creates a Draft with the Payhip link and accurate listing details.</li>
+      <li>After reviewing the product, enable <strong>Published on storefront</strong> and click Save.</li>
+      <li>The public website updates automatically from Firestore. Check the product, price and checkout link.</li>
+      <li>Use <strong>Download backup JSON</strong> regularly for a separate catalog backup.</li></ol>
+      <p><strong>Security:</strong> Only Firebase-authenticated accounts that have an authorized role can read drafts or write products. The site does not expose Firebase administrator credentials. All product data in the storefront is public once published.</p>
+      <p><strong>Files:</strong> Upload paid PDFs to Payhip only. Public sample PDFs may be placed in GitHub <code>assets/</code>; no file uploads are implemented in this V3 dashboard.</p></section>
+  </main>
+  <footer class="footer">StudyShelf Catalog Studio V3 · Protected direct editing for the client and developer · <a href="../index.html">Return to storefront ↗</a></footer>
+</body>
+</html>

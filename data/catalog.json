@@ -1,0 +1,33 @@
+{
+  "version": 2,
+  "store": {
+    "name": "StudyShelf",
+    "currency": "USD",
+    "supportEmail": "",
+    "testMode": true
+  },
+  "products": [
+    {
+      "id": "math-foundations",
+      "title": "Mathematics — Revision Essentials",
+      "subject": "Mathematics",
+      "level": "General revision",
+      "exam": "Foundations",
+      "description": "A short sample guide to algebra basics, useful formulas and practice questions. This is a demonstration product, not a complete revision course.",
+      "includes": [
+        "Introduction to basic algebra",
+        "Useful formulas and worked examples",
+        "Five review questions"
+      ],
+      "pages": 4,
+      "price": 0,
+      "cover": "violet",
+      "symbol": "∑",
+      "badge": "FREE SAMPLE",
+      "preview": "assets/sample-mathematics-preview.pdf",
+      "payhipUrl": "https://payhip.com/b/alVth",
+      "featured": true,
+      "published": true
+    }
+  ]
+}
