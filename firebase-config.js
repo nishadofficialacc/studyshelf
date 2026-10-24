@@ -5,11 +5,14 @@
  * Copy the Firebase Console web app config and set enabled: true when ready.
  */
 export const firebaseSettings = {
-  enabled: false,
+  enabled: true,
   config: {
-    apiKey: 'REPLACE_WITH_FIREBASE_WEB_API_KEY',
-    authDomain: 'REPLACE_WITH_PROJECT_ID.firebaseapp.com',
-    projectId: 'REPLACE_WITH_PROJECT_ID',
-    appId: 'REPLACE_WITH_FIREBASE_APP_ID'
+    apiKey: "AIzaSyA_5sHDAI7kUPY0thklaQjmfZP4yVNT-KA",
+    authDomain: "studyshelf-client.firebaseapp.com",
+    projectId: "studyshelf-client",
+    storageBucket: "studyshelf-client.firebasestorage.app",
+    messagingSenderId: "447681205144",
+    appId: "1:447681205144:web:4066a92eac9261344891ed",
+    measurementId: "G-CZ3WVKDTE1"
   }
 };
